@@ -1,38 +1,145 @@
-/*Linked to HTML File*/
-html,
-body {
-  margin: 0;
-  padding: 5;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-}
-
-#map {
-  width: 100%; /* Adjust width to your desired size */
-  height: 100%; /* Adjust height to your desired size */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for effect */
-  border-radius: 8px; /* Optional: rounded corners */
-}
-
-#map svg {
-    /* Debugging Purposes
-    background: yellow;
-    opacity: 50%; 
-    */
+header {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    padding: 1em;
+  }
+  
+  .time-filter {
+    margin-left: auto;
+  }
+  
+  .time-filter time,
+  .time-filter em {
+    display: block;
+  }
+  
+  .time-filter em {
+    color: #666;
+    font-style: italic;
+  }
+  
+  #map {
+    width: 100%;
+    height: 80vh; /* Fallback height for visibility */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  #map svg {
     position: absolute;
     z-index: 1;
     width: 100%;
     height: 100%;
     pointer-events: none;
-}
-
-#map circle {
-    fill: steelblue;
+  }
+  
+  #map svg circle,
+  .legend > div {
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+      in oklch,
+      var(--color-departures) calc(100% * var(--departure-ratio)),
+      var(--color-arrivals)
+    );
+  }
+  
+  #map svg circle {
+    fill: var(--color); /* THE CRITICAL MISSING PROPERTY - ADDING THIS FIXES COLORING */
+    fill-opacity: 0.6;
     stroke: white;
-    stroke-width: 1px;
-    fill-opacity: 60%;
-    pointer-events: auto; /*Change to auto from none to see tooltips and override svg*/
-}
+    stroke-width: 1;
+    pointer-events: auto !important;
+    cursor: pointer;
+    transition: stroke-width 0.2s ease, fill-opacity 0.2s ease;
+  }
+  
+  #map svg circle:hover {
+    stroke-width: 2;
+    fill-opacity: 0.8;
+  }
+  
+  /* .legend {
+    display: flex;
+    gap: 1px;
+    margin-block: 1em;
+  }
+  
+  .legend > div {
+    flex: 1;
+    background: var(--color);
+    color: white;
+    padding: 0.5em 2em;
+    text-align: center;
+  }
+  
+  .legend > div:first-child {
+    text-align: left;
+  }
+  
+  .legend > div:last-child {
+    text-align: right;
+  } */
+   /* Hide the original legend if you want to replace it completely */
+
+   .legend {
+    display: none;
+  }
+  
+  /* Styles for the new dot-based legend */
+  .legend-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin: 1em 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 15px;
+  }
+  
+  .legend-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  
+  .legend-label {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Tooltip styling */
+  #tooltip {
+    position: absolute;
+    display: none;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    max-width: 250px;
+  }
+  
+  #tooltip strong {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 3px;
+  }

@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bikewatching</title>
-    <script src="map.js" type="module"></script>
+    
     <link rel="stylesheet" href="global.css" />
     <link rel="stylesheet" href="map.css" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -13,11 +12,44 @@
         href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
         rel="stylesheet"
     />
+
+    <title>Bikewatching</title>
   </head>
+    
   <body>
-    <h1>🚴🏼‍♀️ Bikewatching</h1>
+    <header>
+      <h1>🚴🏼‍♀️ Bikewatching</h1>
+      <label for="time-slider" class="time-filter">
+          Filter by time:
+          <input type="range" id="time-slider" min="-1" max="1440" value="-1" />
+          <time id="selected-time"></time>
+          <em id="any-time">(any time)</em>
+      </label>
+    </header>
+    
     <div id="map">
-        <svg></svg>
-    </div>>
+      <!-- SVG will be selected or created by D3 -->
+    </div>
+    
+    <!-- Tooltip element for station information -->
+    <div id="tooltip"></div>
+    
+    <!-- New dot-based legend -->
+    <div class="legend-dots">
+      <div class="legend-item">
+        <span class="legend-dot" style="background-color: steelblue;"></span>
+        <span class="legend-label">More departures</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background-color: purple;"></span>
+        <span class="legend-label">Balanced</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background-color: darkorange;"></span>
+        <span class="legend-label">More arrivals</span>
+      </div>
+    </div>
+    
+    <script src="map.js" type="module"></script>
   </body>
 </html>
